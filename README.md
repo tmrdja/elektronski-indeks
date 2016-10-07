@@ -17,5 +17,5 @@ In config.js set database config and serialport config.
 
 #### Run
 ```
-bower w -s
+brunch w -s
 ```
