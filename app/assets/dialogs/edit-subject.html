@@ -1,0 +1,56 @@
+<md-dialog>
+    <form ng-cloak name="subjectForm">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{(subject.name) ? subject.name : 'Predmet'}}</h2>
+            </div>
+        </md-toolbar>
+        <md-dialog-content style="overflow-x: visible;">
+            <div class="md-dialog-content">
+                <form layout layout-align="center" layout-padding>
+                    <div layout="row" flex>
+                        <md-input-container flex class="md-icon-float md-block md-title">
+                            <input disabled ng-model="subject.code" placeholder="Šifra predmeta" required ng-pattern="/^[0-9A-Za-z]{3,5}$/" md-minlength="3" md-maxlength="5">
+                        </md-input-container>
+                        <div ng-if="role == 0">
+                            <md-button class="md-raised md-primary" ng-click="pickSubject()">
+                                Odaberi
+                            </md-button>
+                        </div>
+                    </div>
+                    <div layout="row" flex>
+                        <md-input-container flex>
+                            <input ng-model="subject.credits" placeholder="Ukupan broj bodova" ng-pattern="/^([0-9]{1,2})|(100)$/" md-maxlength="3">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex>
+                        <md-input-container flex>
+                            <input ng-model="subject.mark" placeholder="Ocena" ng-pattern="/^([5-9]{1})|(10)$/" md-maxlength="2">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex>
+                        <md-input-container>
+                            <label>Datum polaganja</label>
+                            <md-datepicker ng-model="subject.date" name="Datum polaganja" md-min-date="minDate" md-max-date="maxDate"></md-datepicker>
+                            <div ng-messages="subjectForm.date.$error">
+                                <div ng-message="valid">The entered value is not a date!</div>
+                                <div ng-message="required">This date is required!</div>
+                                <div ng-message="mindate">Date is too early!</div>
+                                <div ng-message="maxdate">Date is too late!</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </form>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button class="md-raised md-primary" ng-click="save()" ng-disabled="subjectForm.$invalid">
+                Sačuvaj
+            </md-button>
+            <span flex></span>
+            <md-button class="md-raised" ng-click="cancel()">
+                Zatvori
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

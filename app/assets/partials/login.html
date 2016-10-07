@@ -1,0 +1,22 @@
+<div layout="column" layout-align="center center" layout-fill>
+    <form class="loginBox md-whiteframe-z1" name="loginForm" layout="column" style="max-width: 90%;width: 500px; margin-top: 20px;">
+        <md-toolbar>
+            <h2 class="md-toolbar-tools">
+        <span>Prijava</span>
+          </h2>
+        </md-toolbar>
+        <md-content class="md-padding" layout="column">
+            <md-input-container>
+                <label>Korisničko ime</label>
+                <input ng-model="ctrl.user.username" required />
+            </md-input-container>
+            <md-input-container>
+                <label>Šifra</label>
+                <input type="password" ng-model="ctrl.user.password" />
+            </md-input-container>
+            <div layout="row" layout-align="left" style="padding-top:10px;">
+                <md-button class="md-raised md-primary" ng-click="ctrl.login()" ng-disabled="loginForm.$invalid">Prijavi se</md-button>
+            </div>
+        </md-content>
+    </form>
+</div>

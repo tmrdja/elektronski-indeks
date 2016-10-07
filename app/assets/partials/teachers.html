@@ -1,0 +1,53 @@
+<section layout="row" flex style="height: 100%">
+    <md-content flex layout-padding>
+        <md-card>
+            <md-toolbar class="md-table-toolbar md-default">
+                <div class="md-toolbar-tools">
+                    <h2>Profesori</h2>
+                    <div flex></div>
+                    <md-input-container md-no-float lass="md-block input-show-hide" style="margin-top: 35px;">
+                        <input ng-model="ctrl.query.filter" type="text" placeholder="Traži" ng-change="ctrl.query.page = 1; ctrl.getTeachers()">
+                    </md-input-container>
+                    <md-button class="md-icon-button">
+                        <md-icon style="display:inline-block;">search</md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" ng-click="ctrl.editTeacher()">
+                        <md-icon>add_circle</md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-table-container>
+                <table md-table>
+                    <thead md-head md-head md-order="ctrl.query.order" md-on-reorder="ctrl.getTeachers">
+                        <tr md-row>
+                            <th md-column md-order-by="firstname">Ime</th>
+                            <th md-column md-order-by="lastname">Prezime</th>
+                            <th md-column md-order-by="username">Korisničko ime</th>
+                            <th md-column>Predmeti</th>
+                            <th md-column style="width: 1px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody md-body>
+                        <tr md-row ng-repeat="teacher in ctrl.teachers.data track by $index" ng-click="ctrl.editTeacher(teacher)">
+                            <td md-cell>{{teacher.firstname}}</td>
+                            <td md-cell>{{teacher.lastname}}</td>
+                            <td md-cell>{{teacher.username}}</td>
+                            <td md-cell style="padding: 0px;">
+                                <md-button class="md-icon-button" ng-click="$event.stopPropagation();ctrl.listSubjects(teacher);">
+                                    <md-icon>subject</md-icon>
+                                </md-button>
+                            </td>
+                            <td md-cell style="padding: 0px;">
+                                <md-button class="md-icon-button" ng-click="$event.stopPropagation();ctrl.deleteTeacher(teacher);">
+                                    <md-icon>delete</md-icon>
+                                </md-button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+            <md-table-pagination md-label="{page: 'Strana:', rowsPerPage: 'Broj redova po strani:', of: 'od'}" md-limit="ctrl.query.limit" md-limit-options="[10, 15, 20]" md-page="ctrl.query.page" md-total="{{ctrl.teachers.count}}" md-on-paginate="ctrl.getTeachers"></md-table-pagination>
+        </md-card>
+
+    </md-content>
+</section>

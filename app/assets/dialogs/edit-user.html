@@ -1,0 +1,55 @@
+<md-dialog>
+    <form ng-cloak name="userForm" style="width: 500px;">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Korisnik</h2>
+            </div>
+        </md-toolbar>
+        <md-dialog-content style="overflow-x: visible;">
+            <div class="md-dialog-content">
+                <form layout layout-align="center" layout-padding>
+                    <div layout="row" flex>
+                        <md-input-container flex>
+                            <input ng-model="user.firstname" placeholder="Ime" required md-maxlength="20">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex>
+                        <md-input-container flex>
+                            <input ng-model="user.lastname" placeholder="Prezime" required md-maxlength="20">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex>
+                        <md-input-container flex>
+                            <input ng-model="user.username" placeholder="Korisničko ime" required md-maxlength="20">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex ng-if="user._id == null">
+                        <md-input-container flex>
+                            <input ng-model="user.password" placeholder="Šifra" required type="password" md-maxlength="20">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex ng-if="user.role == 2">
+                        <md-input-container flex>
+                            <input ng-model="user.number" placeholder="Broj indeksa" ng-pattern="/^[0-9]{1,5}$/" md-maxlength="5">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex ng-if="user.role == 2">
+                        <md-input-container flex>
+                            <input ng-model="user.startYear" placeholder="Godina upisa" ng-pattern="/^[0-9]{4}$/" md-maxlength="4">
+                        </md-input-container>
+                    </div>
+
+                </form>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button class="md-raised md-primary" ng-click="save()" ng-disabled="userForm.$invalid">
+                Sačuvaj
+            </md-button>
+            <span flex></span>
+            <md-button class="md-raised" ng-click="cancel()">
+                Zatvori
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

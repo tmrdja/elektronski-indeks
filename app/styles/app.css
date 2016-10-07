@@ -1,0 +1,25 @@
+body {
+    background-color: #fafafa;
+}
+
+#main-view {
+    height: calc(100vh - 64px);
+}
+
+md-sidenav .md-button.active {
+    background-color: red;
+}
+
+.input-show-hide {
+    -webkit-transition: all linear 2.5s !important;
+    transition: all linear 2.5s !important;
+    transform-origin: right;
+}
+
+.input-show-hide.ng-hide {
+    width: 0px;
+}
+
+.input-show-hide.ng-show {
+    width: 252px;
+}

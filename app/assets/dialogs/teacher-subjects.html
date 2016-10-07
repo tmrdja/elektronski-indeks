@@ -1,0 +1,56 @@
+<md-dialog>
+    <form ng-cloak style="width: 800px;">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Profesor {{teacher.fistname+' '+teacher.lastname}} predaje</h2>
+            </div>
+        </md-toolbar>
+        <md-dialog-content style="overflow-x: visible;">
+            <div class="md-dialog-content">
+                <md-toolbar class="md-table-toolbar md-default">
+                    <div class="md-toolbar-tools">
+                        <md-input-container>
+                            <input ng-model="ctrl.query.filter" type="text" placeholder="Traži" ng-change="ctrl.getSubjects()">
+                        </md-input-container>
+                        <span flex></span>
+                        <md-button class="md-icon-button" ng-click="ctrl.addSubject()">
+                            <md-icon>add_circle</md-icon>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+                <md-table-container>
+                    <table md-table>
+                        <thead md-head md-head md-order="ctrl.query.order" md-on-reorder="ctrl.getSubjects">
+                            <tr md-row>
+                                <th md-column md-order-by="code">Šifra</th>
+                                <th md-column md-order-by="name">Naziv</th>
+                                <th md-column md-numeric md-order-by="espb">ESPB</th>
+                                <th md-column>Tip</th>
+                                <th md-column style="width: 1px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody md-body>
+                            <tr md-row ng-repeat="subject in ctrl.subjects.data | filter:ctrl.query.filter | orderBy:ctrl.query.order">
+                                <td md-cell>{{subject.code}}</td>
+                                <td md-cell>{{subject.name}}</td>
+                                <td md-cell>{{subject.espb}}</td>
+                                <td md-cell>{{(subject.required) ? 'Obavezni' : 'Izborni'}}</td>
+                                <td md-cell style="padding: 0px;">
+                                    <md-button class="md-icon-button" ng-click="$event.stopPropagation();ctrl.deleteSubject(subject);">
+                                        <md-icon>delete</md-icon>
+                                    </md-button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </md-table-container>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button class="md-raised" ng-click="ctrl.cancel()">
+                Zatvori
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

@@ -1,0 +1,51 @@
+<section layout="row" flex style="height: 100%">
+    <md-content flex layout-padding>
+        <md-card>
+            <md-toolbar class="md-table-toolbar md-default">
+                <div class="md-toolbar-tools">
+                    <h2>Studenti</h2>
+                    <div flex></div>
+                    <md-input-container md-no-float class="md-block input-show-hide" style="margin-top: 35px;">
+                        <input ng-model="ctrl.query.filter" type="text" placeholder="Traži" ng-change="ctrl.query.page = 1; ctrl.getStudents()">
+                    </md-input-container>
+                    <md-button class="md-icon-button">
+                        <md-icon style="display:inline-block;">search</md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" ng-click="ctrl.editStudent()">
+                        <md-icon>add_circle</md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-table-container>
+                <table md-table>
+                    <thead md-head md-head md-order="ctrl.query.order" md-on-reorder="ctrl.getStudents">
+                        <tr md-row>
+                            <th md-column md-order-by="firstname">Ime</th>
+                            <th md-column md-order-by="lastname">Prezime</th>
+                            <th md-column md-order-by="username">Korisničko ime</th>
+                            <th md-column md-numeric md-order-by="number">Broj indeksa</th>
+                            <th md-column md-numeric md-order-by="startYear">Godina upisa</th>
+                            <th md-column style="width: 1px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody md-body>
+                        <tr md-row ng-repeat="student in ctrl.students.data track by $index" ng-click="ctrl.editStudent(student)">
+                            <td md-cell>{{student.firstname}}</td>
+                            <td md-cell>{{student.lastname}}</td>
+                            <td md-cell>{{student.username}}</td>
+                            <td md-cell>{{student.number}}</td>
+                            <td md-cell>{{student.startYear}}</td>
+                            <td md-cell style="padding: 0px;">
+                                <md-button class="md-icon-button" ng-click="$event.stopPropagation();ctrl.deleteStudent(student);">
+                                    <md-icon>delete</md-icon>
+                                </md-button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+            <md-table-pagination md-label="{page: 'Strana:', rowsPerPage: 'Broj redova po strani:', of: 'od'}" md-limit="ctrl.query.limit" md-limit-options="[10, 15, 20]" md-page="ctrl.query.page" md-total="{{ctrl.students.count}}" md-on-paginate="ctrl.getStudents"></md-table-pagination>
+        </md-card>
+
+    </md-content>
+</section>

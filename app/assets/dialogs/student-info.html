@@ -1,0 +1,66 @@
+<md-dialog>
+    <form ng-cloak name="studentForm" style="width: 500px;">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Student</h2>
+            </div>
+        </md-toolbar>
+        <md-dialog-content style="overflow-x: visible;">
+            <div class="md-dialog-content">
+                <form layout layout-align="center" layout-padding>
+                    <div layout="row" flex>
+                        <md-input-container flex>
+                            <input ng-model="student.number" placeholder="Broj indeksa" ng-pattern="/^[0-9]{1,5}$/" md-maxlength="5">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex>
+                        <md-input-container flex>
+                            <input ng-model="student.startYear" placeholder="Godina upisa" ng-pattern="/^[0-9]{4}$/" md-maxlength="4">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex>
+                        <md-input-container flex>
+                            <input ng-model="student.firstname" placeholder="Ime" required md-maxlength="change('firstname')">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex>
+                        <md-input-container flex>
+                            <input ng-model="student.lastname" placeholder="Prezime" required md-maxlength="change('lastname')">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex>
+                        <md-input-container flex>
+                            <input ng-model="student.JMBG" placeholder="JMBG" ng-pattern="/^[0-9]{13}$/" required md-maxlength="13" md-minlength="13">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex>
+                        <md-input-container flex>
+                            <input ng-model="student.faculty" placeholder="Fakultet" required md-maxlength="change('faculty')">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex>
+                        <md-input-container flex>
+                            <input ng-model="student.city" placeholder="Grad" required md-maxlength="change('city')">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex>
+                        <md-input-container flex>
+                            <input ng-model="student.course" placeholder="Smer" required md-maxlength="change('course')">
+                        </md-input-container>
+                    </div>
+
+
+                </form>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button class="md-raised md-primary" ng-click="save()" ng-disabled="studentForm.$invalid">
+                Sačuvaj
+            </md-button>
+            <span flex></span>
+            <md-button class="md-raised" ng-click="cancel()">
+                Zatvori
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

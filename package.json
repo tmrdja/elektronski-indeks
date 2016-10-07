@@ -1,0 +1,24 @@
+{
+  "name": "elektronski-indeks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "tmrdja",
+  "license": "ISC",
+  "dependencies": {
+    "arangojs": "^5.0.3",
+    "body-parser": "^1.15.2",
+    "brunch": "^2.8.2",
+    "css-brunch": "^2.6.1",
+    "express": "^4.14.0",
+    "javascript-brunch": "^2.0.0",
+    "jwt-simple": "^0.5.0",
+    "passport": "^0.3.2",
+    "passport-jwt": "^2.1.0",
+    "promise": "^7.1.1",
+    "serialport": "^4.0.1"
+  }
+}

@@ -1,0 +1,24 @@
+<md-toolbar class="md-hue-2 md-whiteframe-2dp" ng-controller="navCtrl as ctrl">
+    <div class="md-toolbar-tools">
+        <!--md-button class="md-icon-button" aria-label="Settings">
+            <md-icon class="material-icons">all_inclusive</md-icon>
+        </md-button-->
+        <h2>
+          <span>Elektronski indeks</span>
+        </h2>
+        <span flex></span>
+        <md-nav-bar md-selected-nav-item="selectedTab" nav-bar-aria-label="navigation links" ng-if="ctrl.getUser() != null">
+            <md-nav-item md-nav-sref="year({year: 1})" name="year">Indeks</md-nav-item>
+            <md-nav-item ng-if="ctrl.getUser().role == 0" md-nav-href="#subjects" name="subjects">Predmeti</md-nav-item>
+            <md-nav-item ng-if="ctrl.getUser().role == 0" md-nav-href="#students" name="students">Studenti</md-nav-item>
+            <md-nav-item ng-if="ctrl.getUser().role == 0" md-nav-href="#teachers" name="teachers">Profesori</md-nav-item>
+        </md-nav-bar>
+        <span flex></span>
+        <span ng-if="ctrl.getUser() != null">
+        <span>{{ctrl.getUser().firstname + ' ' + ctrl.getUser().lastname}}</span>
+        <md-button class="md-icon-button" aria-label="Logout" ng-click="ctrl.logout()">
+            <md-icon>exit_to_app</md-icon>
+        </md-button>
+        </span>
+    </div>
+</md-toolbar>

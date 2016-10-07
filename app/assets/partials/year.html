@@ -1,0 +1,164 @@
+<section layout="row" flex style="height: 100%">
+    <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" md-whiteframe="3">
+        <md-toolbar class="md-hue-2" layout-align="end end" ng-class="{'md-tall': ctrl.info != null}">
+            <div class="md-toolbar-tools" layout layout-padding>
+                <div layout="column" ng-hide="ctrl.info == null">
+                    <span class="md-body-3">{{ctrl.info.firstname + ' '+ ctrl.info.lastname}}</span>
+                    <span class="md-caption">{{ctrl.info.number + '/'+ ctrl.info.startYear}}</span>
+                    <span class="md-caption">JMBG: {{ctrl.info.JMBG}}</span>
+                </div>
+                <span flex></span>
+                <md-button class="md-icon-button" aria-label="Open" ng-click="ctrl.openCard()">
+                    <md-tooltip md-direction="bottom">{{(ctrl.uid != null &amp;&amp; ctrl.uid != '' ) ? ('UID: ' + ctrl.uid) : 'Otvori karticu' }}</md-tooltip>
+                    <md-icon>credit_card</md-icon>
+                </md-button>
+
+                <!--label>Type: {{ ctrl.typeName(ctrl.type) }}</label-->
+            </div>
+            <div class="md-toolbar-tools" layout layout-padding ng-hide="ctrl.info == null">
+                <div layout="column">
+                    <span class="md-caption">{{ctrl.info.faculty}}</span>
+                    <span class="md-caption">{{ctrl.info.city}}</span>
+                    <span class="md-caption">{{ctrl.info.course}}</span>
+                </div>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="ctrl.editSudentInfo()" ng-if="ctrl.role == 0">
+                    <md-tooltip md-direction="bottom">Izmeni podatke</md-tooltip>
+                    <md-icon md-menu-origin>edit</md-icon>
+                </md-button>
+                <!--md-menu md-position-mode="target-right target" md-offset="0 32">
+                    <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="ctrl.openMenu($mdOpenMenu, $event)">
+                        <md-icon md-menu-origin>arrow_drop_down</md-icon>
+                    </md-button>
+                    <md-menu-content width="3">
+                        <md-menu-item>
+                            <md-button disabled="disabled" ng-click="ctrl.checkVoicemail()">
+                                <!--md-icon md-svg-icon="call:voicemail"></md-icon>
+                                Check voicemail
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-divider></md-menu-divider>
+                        <md-menu-item>
+                            <md-button ng-click="ctrl.toggleNotifications()">
+                                <!--md-icon></md-icon>
+                                {{ctrl.notificationsEnabled ? 'Disable' : 'Enable' }} notifications
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu-->
+            </div>
+        </md-toolbar>
+        <!--md-menu-content ng-show="userSection">
+            <md-menu-item>
+                <md-button>
+                    Odjavi se
+                </md-button>
+            </md-menu-item>
+        </md-menu-content-->
+        <md-menu-content>
+            <md-menu-item ng-repeat="item in ctrl.years">
+                <md-button ui-sref="year({year: $index+1})" ng-class="((ctrl.year == $index+1) ? 'md-primary md-raised': '')">
+                    <md-icon>{{item}}</md-icon> Godina
+                </md-button>
+            </md-menu-item>
+            <md-menu-divider></md-menu-divider>
+            <md-menu-item ng-if="ctrl.role == 0">
+                <md-button ui-sref="year({year: 0})" ng-class="((ctrl.year == 0) ? 'md-primary md-raised': '')">
+                    <md-icon>import_export</md-icon> Uvoz / Izvoz
+                </md-button>
+            </md-menu-item>
+        </md-menu-content>
+    </md-sidenav>
+    <md-content flex layout-padding>
+        <md-card>
+            <md-toolbar class="md-table-toolbar md-default" ng-if="ctrl.year > 0">
+                <div class="md-toolbar-tools">
+                    <h2>{{ctrl.years[ctrl.year-1]}} Godina</h2>
+                    <div flex></div>
+                    <md-input-container md-no-float class="md-block input-show-hide" style="margin-top: 35px;">
+                        <input ng-model="filterQuery" type="text" placeholder="Traži">
+                    </md-input-container>
+                    <md-button class="md-icon-button">
+                        <md-icon style="display:inline-block;">search</md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" ng-click="ctrl.editSubject()" ng-disabled="ctrl.subjects.length >= 15" ng-if="ctrl.role == 0">
+                        <md-icon>add_circle</md-icon>
+                        <md-tooltip md-direction="bottom">Dodaj predmet</md-tooltip>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-toolbar class="md-table-toolbar md-default" ng-if="ctrl.year == 0">
+                <div class="md-toolbar-tools">
+                    <md-input-container>
+                        <md-select ng-model="ctrl.selectedModule" placeholder="Modul" ng-change="ctrl.changeModule()">
+                            <md-option ng-value="m" ng-repeat="m in ctrl.modules">{{ m.name }}</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-button class="md-icon-button" ng-click="ctrl.deleteModule()" ng-disabled="ctrl.selectedModule == null">
+                        <md-tooltip md-direction="bottom">Obriši modul</md-tooltip>
+                        <md-icon>delete</md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" ng-click="ctrl.writeModule()" ng-disabled="ctrl.selectedModule == null">
+                        <md-tooltip md-direction="bottom">Upiši predmete na karticu</md-tooltip>
+                        <md-icon>save</md-icon>
+                    </md-button>
+                    <span flex></span>
+                    <md-radio-group ng-model="ctrl.selectedYear" layout="row" ng-change="ctrl.changeModule()">
+                        <md-radio-button value="{{$index}}" ng-repeat="item in ctrl.years">{{item}} Godina</md-radio-button>
+                    </md-radio-group>
+                    <span flex></span>
+                    <md-input-container md-no-float class="md-block" style="margin-top: 35px;">
+                        <input ng-model="ctrl.newModule" type="text" placeholder="Novi modul">
+                    </md-input-container>
+                    <md-button class="md-icon-button" ng-click="ctrl.addModule()" ng-disabled="ctrl.newModule.length <= 0">
+                        <md-tooltip md-direction="bottom">Dodaj modul</md-tooltip>
+                        <md-icon>add_circle</md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-table-container>
+                <table md-table>
+                    <thead md-head>
+                        <tr md-row>
+                            <th md-column>Šifra</th>
+                            <th md-column>Naziv</th>
+                            <th md-column md-numeric>Ukupan broj bodova</th>
+                            <th md-column md-numeric>Ocena</th>
+                            <th md-column>Datum polaganja</th>
+                            <th md-column style="width: 1px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody md-body>
+                        <tr md-row ng-repeat="subject in ctrl.subjects | filter:{'code': filterQuery} track by $index" ng-click="subject.editable && ctrl.editSubject($index, subject)" ng-style="{'opacity': (subject.editable) ? 1 : 0.6}">
+                            <td md-cell>{{subject.code}}</td>
+                            <td md-cell>{{subject.name}}</td>
+                            <td md-cell>{{(subject.credits &lt; 1 ) ? '-' : subject.credits }}</td>
+                            <td md-cell>{{(subject.mark &lt; 6) ? '-' : subject.mark}}</td>
+                            <td md-cell>{{(subject.mark &lt; 6) ? '-' : (subject.date | date: 'dd.MM.yyyy')}}</td>
+                            <td md-cell style="padding: 0px;">
+                                <md-button class="md-icon-button" ng-click="$event.stopPropagation();ctrl.deleteSubject($index, subject);" ng-if="ctrl.role == 0 && ctrl.year > 0">
+                                    <md-tooltip md-direction="bottom">Obriši predmet</md-tooltip>
+                                    <md-icon>delete</md-icon>
+                                </md-button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+        </md-card>
+        <!--md-card ng-if="ctrl.year == 0">
+            <div flex>
+                <md-input-container>
+                    <md-select ng-model="module" placeholder="Modul">
+                        <md-option ng-value="m._id" ng-repeat="m in ctrl.modules">{{ m.name }}</md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <div flex>
+                <md-input-container flex>
+                    <input ng-model="newModule.name" placeholder="Prezime" required md-maxlength="change('lastname')">
+                </md-input-container>
+            </div>
+        </md-card-->
+    </md-content>
+</section>
