@@ -87,22 +87,22 @@ var Database = function () {
                 ' || LOWER(s.number) LIKE "%' + query.filter + '%"' +
                 ' || LOWER(s.startYear) LIKE "%' + query.filter + '%"';
         }
-        aql += ' SORT s.' + query.order + ' ' + order + ' LIMIT ' + ((query.page - 1) * query.limit) + ',' + query.limit + ' RETURN s';
+        aql += ' SORT s.' + query.order + ' ' + order + /*' LIMIT ' + ((query.page - 1) * query.limit) + ',' + query.limit +*/ ' RETURN s';
         //console.log(query, aql);
-        return db.query(aql)
-            .then(function (cursor) {
-                //console.log(cursor);
-                return cursor.all();
+        return db.query(aql, {}, {
+                count: true
             })
-            .then(function (data) {
-                    //console.log('All keys:', data.join(', '));
-                    return {
-                        data: data,
-                        count: 100
-                    }
+            .then(function (cursor) {
+                    return cursor.all().then(function (data) {
+                        //console.log(data);
+                        return {
+                            data: data.slice((query.page - 1) * query.limit, (query.page) * query.limit),
+                            count: cursor.count
+                        };
+                    });
                 },
                 function (err) {
-                    console.error('Failed to execute query:', err);
+                    throw err;
                 });
     }
 
@@ -160,22 +160,22 @@ var Database = function () {
         if (query.filter.length > 0) {
             aql += 'FILTER LOWER(s.name) LIKE "%' + query.filter + '%" || LOWER(s.code) LIKE "%' + query.filter + '%" ';
         }
-        aql += 'SORT s.' + query.order + ' ' + order + ' LIMIT ' + ((query.page - 1) * query.limit) + ',' + query.limit + ' RETURN s';
+        aql += 'SORT s.' + query.order + ' ' + order /*+ ' LIMIT ' + ((query.page - 1) * query.limit) + ',' + query.limit*/ + ' RETURN s';
         //console.log(query, aql);
-        return db.query(aql)
-            .then(function (cursor) {
-                //console.log(cursor);
-                return cursor.all();
+        return db.query(aql, {}, {
+                count: true
             })
-            .then(function (data) {
-                    //console.log('All keys:', data.join(', '));
-                    return {
-                        data: data,
-                        count: 100
-                    }
+            .then(function (cursor) {
+                    return cursor.all().then(function (data) {
+                        //console.log(data);
+                        return {
+                            data: data.slice((query.page - 1) * query.limit, (query.page) * query.limit),
+                            count: cursor.count
+                        };
+                    });
                 },
                 function (err) {
-                    console.error('Failed to execute query:', err);
+                    throw err;
                 });
     }
 
