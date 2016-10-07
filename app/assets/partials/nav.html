@@ -7,7 +7,7 @@
           <span>Elektronski indeks</span>
         </h2>
         <span flex></span>
-        <md-nav-bar md-selected-nav-item="selectedTab" nav-bar-aria-label="navigation links" ng-if="ctrl.getUser() != null">
+        <md-nav-bar md-selected-nav-item="ctrl.selectedTab" nav-bar-aria-label="navigation links" ng-if="ctrl.getUser() != null">
             <md-nav-item md-nav-sref="year({year: 1})" name="year">Indeks</md-nav-item>
             <md-nav-item ng-if="ctrl.getUser().role == 0" md-nav-href="#subjects" name="subjects">Predmeti</md-nav-item>
             <md-nav-item ng-if="ctrl.getUser().role == 0" md-nav-href="#students" name="students">Studenti</md-nav-item>
