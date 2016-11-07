@@ -1,0 +1,52 @@
+<md-dialog>
+    <form ng-cloak style="width: 800px;">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Izbor studenta</h2>
+            </div>
+        </md-toolbar>
+        <md-dialog-content style="overflow-x: visible;">
+            <div class="md-dialog-content">
+                <md-toolbar class="md-table-toolbar md-default">
+                    <div class="md-toolbar-tools">
+                        <md-input-container>
+                            <input ng-model="ctrl.query.filter" type="text" placeholder="Traži" ng-change="ctrl.query.page = 1; ctrl.getStudents()">
+                        </md-input-container>
+                    </div>
+                </md-toolbar>
+                <md-table-container>
+                    <table md-table md-row-select="true" ng-model="ctrl.selected">
+                        <thead md-head md-order="ctrl.query.order" md-on-reorder="ctrl.getStudents">
+                            <tr md-row>
+                                <th md-column md-order-by="firstname">Ime</th>
+                                <th md-column md-order-by="lastname">Prezime</th>
+                                <th md-column md-order-by="username">Korisničko ime</th>
+                                <th md-column md-numeric md-order-by="number">Broj indeksa</th>
+                                <th md-column md-numeric md-order-by="startYear">Godina upisa</th>
+                            </tr>
+                        </thead>
+                        <tbody md-body>
+                            <tr md-row ng-repeat="student in ctrl.students.data track by $index" md-select="student" md-auto-select>
+                                <td md-cell>{{student.firstname}}</td>
+                                <td md-cell>{{student.lastname}}</td>
+                                <td md-cell>{{student.username}}</td>
+                                <td md-cell>{{student.number}}</td>
+                                <td md-cell>{{student.startYear}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </md-table-container>
+                <md-table-pagination md-label="{page: 'Strana:', rowsPerPage: 'Broj studenta po strani:', of: 'od'}" md-limit="ctrl.query.limit" md-limit-options="[10, 15, 20]" md-page="ctrl.query.page" md-total="{{ctrl.students.count}}" md-on-paginate="ctrl.getStudents"></md-table-pagination>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button class="md-raised md-primary" ng-click="ctrl.pick()" ng-disabled="ctrl.selected.length != 1">
+                Odaberi
+            </md-button>
+            <span flex></span>
+            <md-button class="md-raised" ng-click="ctrl.cancel()">
+                Zatvori
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

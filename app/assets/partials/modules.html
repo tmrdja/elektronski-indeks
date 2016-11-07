@@ -1,0 +1,70 @@
+<section layout="row" flex style="height: 100%">
+    <md-content flex layout-padding>
+        <md-card>
+            <md-toolbar class="md-table-toolbar md-default">
+                <div class="md-toolbar-tools">
+                    <md-input-container>
+                        <md-select ng-model="ctrl.selectedModule" placeholder="Modul" ng-change="ctrl.changeModule()">
+                            <md-option ng-value="m" ng-repeat="m in ctrl.modules">{{ m.name }}</md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-button class="md-icon-button" ng-click="ctrl.editModule(ctrl.selectedModule)" ng-disabled="ctrl.selectedModule == null">
+                        <md-tooltip md-direction="bottom">Izmeni modul</md-tooltip>
+                        <md-icon>edit</md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" ng-click="ctrl.deleteModule()" ng-disabled="ctrl.selectedModule == null">
+                        <md-tooltip md-direction="bottom">Obriši modul</md-tooltip>
+                        <md-icon>delete</md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" ng-click="ctrl.editModule()">
+                        <md-tooltip md-direction="bottom">Dodaj modul</md-tooltip>
+                        <md-icon>add_circle</md-icon>
+                    </md-button>
+                    <!--md-input-container md-no-float class="md-block" style="margin-top: 35px;">
+                        <input ng-model="ctrl.newModule" type="text" placeholder="Novi modul">
+                    </md-input-container-->
+                    <md-button class="md-icon-button" ng-click="ctrl.pickStudent()" ng-disabled="ctrl.selectedModule == null">
+                        <md-tooltip md-direction="bottom">Upiši predmete na karticu</md-tooltip>
+                        <md-icon>save</md-icon>
+                    </md-button>
+                    <span flex></span>
+                    <md-radio-group ng-model="ctrl.selectedYear" layout="row" ng-change="ctrl.changeModule()">
+                        <md-radio-button value="{{$index}}" ng-repeat="item in ctrl.years">{{item}} Godina</md-radio-button>
+                    </md-radio-group>
+                    <span flex></span>
+                    <md-button class="md-icon-button" ng-click="ctrl.addModuleSubject()" ng-disabled="ctrl.selectedModule == null">
+                        <md-tooltip md-direction="bottom">Dodaj predmet</md-tooltip>
+                        <md-icon>add_circle</md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-table-container>
+                <table md-table md-progress="ctrl.promise">
+                    <thead md-head>
+                        <tr md-row>
+                            <th md-column>Šifra</th>
+                            <th md-column>Naziv</th>
+                            <th md-column md-numeric>Espb</th>
+                            <th md-column md-numeric>Tip</th>
+                            <th md-column style="width: 1px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody md-body>
+                        <tr md-row ng-repeat="subject in ctrl.subjects | filter:{'code': filterQuery} track by $index" ng-click="subject.editable && ctrl.editSubject($index, subject)" ng-style="{'opacity': (subject.editable) ? 1 : 0.6}">
+                            <td md-cell>{{subject.code}}</td>
+                            <td md-cell>{{subject.name}}</td>
+                            <td md-cell>{{subject.espb }}</td>
+                            <td md-cell>{{subject.required ? 'Obavezan' : 'Izborni' }}</td>
+                            <td md-cell style="padding: 0px;">
+                                <md-button class="md-icon-button" ng-click="$event.stopPropagation();ctrl.deleteSubject(subject);">
+                                    <md-tooltip md-direction="bottom">Obriši predmet</md-tooltip>
+                                    <md-icon>delete</md-icon>
+                                </md-button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+        </md-card>
+    </md-content>
+</section>

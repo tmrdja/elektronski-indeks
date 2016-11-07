@@ -15,7 +15,7 @@
                     </div>
                 </md-toolbar>
                 <md-table-container>
-                    <table md-table md-row-select="true" ng-model="ctrl.selected">
+                    <table md-table md-row-select="true" ng-model="ctrl.selected" multiple="{{ctrl.multiple}}">
                         <thead md-head md-head md-order="ctrl.query.order" md-on-reorder="ctrl.getSubjects">
                             <tr md-row>
                                 <th md-column md-order-by="code">Šifra</th>
@@ -25,7 +25,7 @@
                             </tr>
                         </thead>
                         <tbody md-body>
-                            <tr md-row ng-repeat="subject in ctrl.subjects.data track by $index" md-select="subject" md-select-id="code" md-auto-select>
+                            <tr ng-disabled="ctrl.disableUsed && subject.teacherId != null" md-row ng-repeat="subject in ctrl.subjects.data track by $index" md-select="subject" md-select-id="code" md-auto-select ng-style="{'opacity': (ctrl.disableUsed && subject.teacherId != null) ? 0.5 : 1}">
                                 <td md-cell>{{subject.code}}</td>
                                 <td md-cell>{{subject.name}}</td>
                                 <td md-cell>{{subject.espb}}</td>
@@ -38,7 +38,7 @@
             </div>
         </md-dialog-content>
         <md-dialog-actions layout="row">
-            <md-button class="md-raised md-primary" ng-click="ctrl.pick()" ng-disabled="ctrl.selected.length != 1">
+            <md-button class="md-raised md-primary" ng-click="ctrl.pick()" ng-disabled="ctrl.selected.length == 0">
                 Odaberi
             </md-button>
             <span flex></span>

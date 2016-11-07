@@ -10,29 +10,29 @@ angular.module('app').controller('studentsCtrl', ['Service', '$mdDialog', '$stat
 
     this.selected = [];
 
-    this.getStudents = function () {
-        Service.getStudents(self.query).then(function (res) {
+    this.getStudents = function() {
+        self.promise = Service.getStudents(self.query).then(function(res) {
             self.students = res.data;
         });
     }
 
-    this.cancel = function () {
+    this.cancel = function() {
         $mdDialog.cancel();
     };
 
-    this.pick = function () {
+    this.pick = function() {
         $mdDialog.hide(self.selected[0]);
     };
 
-    this.deleteStudent = function (student) {
-        Service.deleteUser(student).then(function () {
+    this.deleteStudent = function(student) {
+        Service.deleteUser(student).then(function() {
             self.getStudents();
-        }, function () {
+        }, function() {
             Service.showAlert("Greška", "Greška pri brisanju korisnika");
         })
     }
 
-    this.editStudent = function (student) {
+    this.editStudent = function(student) {
         $mdDialog.show({
             controller: 'userCtrl',
             locals: {
@@ -51,7 +51,7 @@ angular.module('app').controller('studentsCtrl', ['Service', '$mdDialog', '$stat
             //targetEvent: ev,
             clickOutsideToClose: false
                 //fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
-        }).then(function () {
+        }).then(function() {
             self.getStudents();
         })
     }

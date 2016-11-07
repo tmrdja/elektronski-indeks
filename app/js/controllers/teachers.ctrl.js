@@ -10,21 +10,21 @@ angular.module('app').controller('teachersCtrl', ['Service', '$mdDialog', '$stat
 
     this.selected = [];
 
-    this.getTeachers = function () {
-        Service.getTeachers(self.query).then(function (res) {
+    this.getTeachers = function() {
+        self.promise = Service.getTeachers(self.query).then(function(res) {
             self.teachers = res.data;
         });
     }
 
-    this.cancel = function () {
+    this.cancel = function() {
         $mdDialog.cancel();
     };
 
-    this.pick = function () {
+    this.pick = function() {
         $mdDialog.hide(self.selected[0]);
     };
 
-    this.listSubjects = function (teacher) {
+    this.listSubjects = function(teacher) {
         var previousDialog = $mdDialog;
         var d = $mdDialog.show({
                 controller: 'teacherSubjectsCtrl',
@@ -37,22 +37,22 @@ angular.module('app').controller('teachersCtrl', ['Service', '$mdDialog', '$stat
                 parent: angular.element(document.body),
                 clickOutsideToClose: false
             })
-            .then(function (subject) {
+            .then(function(subject) {
 
-            }, function () {
+            }, function() {
                 //$scope.status = 'You cancelled the dialog.';
             });
     }
 
-    this.deleteTeacher = function (teacher) {
-        Service.deleteUser(teacher).then(function () {
+    this.deleteTeacher = function(teacher) {
+        Service.deleteUser(teacher).then(function() {
             self.getTeachers();
-        }, function () {
+        }, function() {
             Service.showAlert("Greška", "Greška pri brisanju korisnika");
         })
     }
 
-    this.editTeacher = function (teacher) {
+    this.editTeacher = function(teacher) {
         $mdDialog.show({
             controller: 'userCtrl',
             locals: {
@@ -69,7 +69,7 @@ angular.module('app').controller('teachersCtrl', ['Service', '$mdDialog', '$stat
             //targetEvent: ev,
             clickOutsideToClose: false
                 //fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
-        }).then(function () {
+        }).then(function() {
             self.getTeachers();
         })
     }

@@ -7,6 +7,7 @@ angular.module('app', ['ngSanitize', 'ngResource', 'ui.router', 'ngMaterial', 'm
     .constant('API_ENDPOINT', {
         url: window.location.origin
     })
+    .value('multiple', false)
     .config(function appConfig($stateProvider, $locationProvider, $urlRouterProvider, $httpProvider) {
         //$locationProvider.hashPrefix('#');
         $httpProvider.interceptors.push('AuthInterceptor');
@@ -23,11 +24,21 @@ angular.module('app', ['ngSanitize', 'ngResource', 'ui.router', 'ngMaterial', 'm
                 }
             })
             .state('year', {
-                url: "/year/{year:[0-4]}",
+                url: "/year/{year:[1-4]}",
                 views: {
                     "mainView": {
                         templateUrl: "partials/year.html",
                         controller: 'yearCtrl',
+                        controllerAs: 'ctrl'
+                    }
+                }
+            })
+            .state('modules', {
+                url: "/modules",
+                views: {
+                    "mainView": {
+                        templateUrl: "partials/modules.html",
+                        controller: 'modulesCtrl',
                         controllerAs: 'ctrl'
                     }
                 }
@@ -68,7 +79,7 @@ angular.module('app', ['ngSanitize', 'ngResource', 'ui.router', 'ngMaterial', 'm
 
         return $locationProvider.html5Mode(false);
     })
-    .config(function ($mdThemingProvider, $mdDateLocaleProvider) {
+    .config(function($mdThemingProvider, $mdDateLocaleProvider) {
         $mdThemingProvider.theme('altTheme')
             .primaryPalette('cyan') // specify primary color, all
             // other color intentions will be inherited
@@ -76,17 +87,17 @@ angular.module('app', ['ngSanitize', 'ngResource', 'ui.router', 'ngMaterial', 'm
             .accentPalette('orange');
         $mdThemingProvider.setDefaultTheme('altTheme');
 
-        $mdDateLocaleProvider.formatDate = function (date) {
+        $mdDateLocaleProvider.formatDate = function(date) {
             return moment(date).format('DD.MM.YYYY');
         };
 
-        $mdDateLocaleProvider.parseDate = function (dateString) {
+        $mdDateLocaleProvider.parseDate = function(dateString) {
             var m = moment(dateString, 'DD.MM.YYYY', true);
             return m.isValid() ? m.toDate() : new Date(NaN);
         };
     })
-    .run(function ($rootScope, $state, AuthService, AUTH_EVENTS) {
-        $rootScope.$on('$stateChangeStart', function (event, next, nextParams, fromState) {
+    .run(function($rootScope, $state, AuthService, AUTH_EVENTS) {
+        $rootScope.$on('$stateChangeStart', function(event, next, nextParams, fromState) {
             if (!AuthService.isAuthenticated()) {
                 console.log(next.name);
                 if (next.name !== 'login') {

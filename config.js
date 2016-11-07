@@ -53,13 +53,13 @@ exports.config = {
         path: 'index.js',
         port: 3333,
         base: '/',
-		serialport: 'COM9'
+        serialport: 'COM3'
     },
-	database: {
-		url: 'http://root:pass@localhost:8529',
-		secret: 'elektronski-indeks!23',
-		name: 'elektronski-indeks'
-	},
+    database: {
+        url: 'http://root:pass@localhost:8529',
+        secret: 'elektronski-indeks!23',
+        name: 'elektronski-indeks'
+    },
 
     conventions: {
         assets: /app(\\|\/)assets(\\|\/)/

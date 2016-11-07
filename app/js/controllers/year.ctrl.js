@@ -7,7 +7,10 @@ angular.module('app').controller('yearCtrl', ['Service', '$mdDialog', '$statePar
 
     self.years = ['I', 'II', 'III', 'IV'];
 
-    this.editSubject = function (index, subject) {
+    self.MODULE_TYPE = Service.MODULE_TYPE;
+    self.MODULE_DEGREE = Service.MODULE_DEGREE;
+
+    this.editSubject = function(index, subject) {
         if (index == null) {
             index = self.subjects.length;
         }
@@ -27,83 +30,74 @@ angular.module('app').controller('yearCtrl', ['Service', '$mdDialog', '$statePar
                     clickOutsideToClose: false
                         //fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
                 })
-                .then(function (newSubject) {
-                    Service.writeSubject($stateParams.year, index, newSubject)
-                        .then(function () {
-                            //Service.showAlert('Success', 'Success write.');
-                            if (newSubject.editable == null) {
-                                newSubject.editable = true;
-                            }
-                            self.subjects[index] = newSubject;
-                        }, function (err) {
-                            Service.showAlert('Error', 'Error writing subject!');
+                .then(function(newSubject) {
+                    $mdDialog.show({
+                            controller: function($scope) {
+
+                                $scope.cancel = function() {
+                                    $mdDialog.cancel();
+                                };
+
+                                $scope.save = function() {
+                                    $mdDialog.hide($scope.key);
+                                };
+
+                            },
+                            templateUrl: '/dialogs/edit-key.html',
+                            parent: angular.element(document.body),
+                            clickOutsideToClose: false
                         })
-                }, function () {
+                        .then(function(key) {
+                            Service.writeSubject(newSubject, key)
+                                .then(function() {
+                                    self.subjects[index] = newSubject;
+                                }, function(err) {
+                                    console.log(err);
+                                    if (err.data.data == 'auth') {
+                                        Service.showAlert('Greška', 'Pogrešan ključ!');
+                                    } else {
+                                        Service.showAlert('Greška', 'Greška pri upisu podataka!');
+                                    }
+                                })
+                        }, function() {
+
+                        });
+
+                }, function() {
                     //$scope.status = 'You cancelled the dialog.';
                 });
         }
     }
 
-    this.deleteSubject = function (index, subject) {
-        if (index < self.subjects.length - 1) {
-            Service.writeSubject($stateParams.year, index, self.subjects[self.subjects.length - 1])
-                .then(function (subject) {
-                    self.subjects[index] = self.subjects[self.subjects.length - 1];
-                    self.writeEmptySubject(self.subjects.length - 1);
-                }, function (err) {
-                    Service.showAlert('Error', 'Error writing subject!');
-                });
-        } else {
-            self.writeEmptySubject(self.subjects.length - 1);
-        }
-    }
-
-    this.writeEmptySubject = function (index) {
-        var empty = new Subject();
-        for (var i = 0; i < 5; i++) {
-            empty.code += String.fromCharCode(0);
-        }
-        return Service.writeSubject($stateParams.year, index, empty)
-            .then(function () {
-                self.subjects.pop();
-            }, function (err) {
-                Service.showAlert('Error', 'Error writing subject!');
-            });
-    }
-
-    this.openMenu = function ($mdOpenMenu, ev) {
-        originatorEv = ev;
-        $mdOpenMenu(ev);
-    };
-
-    this.getUid = function () {
-        Service.getUid().then(function (res) {
+    this.getUid = function() {
+        return Service.getUid().then(function(res) {
             if (res.data instanceof Array) {
-                self.uid = res.data.reduce(function (prev, v) {
+                self.uid = res.data.reduce(function(prev, v) {
                     v = parseInt(v);
                     return prev + ((v < 16) ? '0' : '') + v.toString(16);
                 }, '');
             } else {
                 self.uid = '';
             }
+            return res;
         });
     }
 
-    this.getType = function () {
-        Service.getType().then(function (res) {
+    this.getType = function() {
+        Service.getType().then(function(res) {
             self.type = res.data;
         });
     }
 
-    this.typeName = function (type) {
+    this.typeName = function(type) {
         for (var key in Service.PICC_Type) {
             if (Service.PICC_Type[key] == type) return key;
         }
     }
 
-    this.openCard = function () {
-        Service.open().then(function (res) {
-            self.uid = res.data.uid.reduce(function (prev, v) {
+    this.openCard = function() {
+        Service.open().then(function(res) {
+            self.uid = res.data.uid.reduce(function(prev, v) {
                 v = parseInt(v);
                 return prev + ((v < 16) ? '0' : '') + v.toString(16);
             }, '');
@@ -114,7 +108,7 @@ angular.module('app').controller('yearCtrl', ['Service', '$mdDialog', '$statePar
             }
             self.getStudentInfo();
 
-        }, function (err) {
+        }, function(err) {
             Service.showAlert('Error', 'Error opening card');
             if (self.year > 0) {
                 self.getYear();
@@ -124,10 +118,10 @@ angular.module('app').controller('yearCtrl', ['Service', '$mdDialog', '$statePar
     }
 
 
-    this.getYear = function () {
-        Service.getYear($stateParams.year).then(function (res) {
+    this.getYear = function() {
+        self.promise = Service.getYear($stateParams.year).then(function(res) {
             self.subjects = res.data;
-        }, function () {
+        }, function() {
             $mdToast.show(
                 $mdToast.simple()
                 .textContent('Greška prilikom čitanja podataka! Proverite da li je kartica na čitaču.')
@@ -138,90 +132,25 @@ angular.module('app').controller('yearCtrl', ['Service', '$mdDialog', '$statePar
         });
     }
 
-    this.getStudentInfo = function () {
-        Service.readStudentInfo().then(function (res) {
+    this.getStudentInfo = function() {
+        return Service.readStudentInfo().then(function(res) {
             self.info = res.data
-                //console.log(res.data);
+            return res; //console.log(res.data);
         })
     }
 
-    this.editSudentInfo = function () {
-        $mdDialog.show({
-                controller: 'infoCtrl',
-                locals: {
-                    student: self.info
-                },
-                templateUrl: '/dialogs/student-info.html',
-                parent: angular.element(document.body),
-                clickOutsideToClose: false
-            })
-            .then(function (info) {
-                Service.writeStudentInfo(info).then(function () {
-                    self.getStudentInfo();
-                }, function () {
-                    Service.showAlert('Greška', 'Greška prilikom upisivanja podataka o studentu.');
-                })
-            }, function () {
-
-            });
-    }
-
-    this.getModules = function () {
-        Service.getModules().then(function (res) {
-            self.modules = res.data;
-        }, function (err) {
-            Service.showAlert('Greška', 'Greška prilikom učitavanja modula.');
-        });
-    }
-
-    this.changeModule = function () {
-        if (self.selectedYear == null) {
-            self.selectedYear = 0;
+    this.subjectCreditsSum = function(subject) {
+        var c = 0;
+        for (var i = 0; i < subject.credits.length; i++) {
+            c += subject.credits[i];
         }
-        if (self.selectedModule != null) {
-            self.subjects = self.selectedModule.years[self.selectedYear];
-        }
+        return Math.max(0, Math.min(100, c));
     }
 
-    this.addModule = function () {
-        Service.addModule(self.newModule).then(function (res) {
-                self.getModules();
-                console.log('added module', res);
-                self.selectedModule = null;
-                self.subjects = [];
-                Service.showAlert('Greška', 'Uspešno dodat modul.');
-            },
-            function (err) {
-                Service.showAlert('Greška', 'Greška prilikom pravljenja modula.');
-            });
-    }
-
-    this.deleteModule = function () {
-        Service.deleteModule(self.selectedModule).then(function () {
-                self.getModules();
-                self.selectedModule = null;
-                self.subjects = [];
-            },
-            function (err) {
-                Service.showAlert('Greška', 'Greška prilikom pravljenja modula.');
-            });
-    }
-
-    this.writeModule = function () {
-        Service.writeModule(self.selectedModule).then(function () {
-                Service.showAlert('Uspešno', 'Uspešno upisani predmeti iz modula na karticu.');
-            },
-            function (err) {
-                Service.showAlert('Greška', 'Greška prilikom pravljenja modula.');
-            });
-    }
-
-    if (this.year > 0) {
-        this.getYear();
-    } else {
-        self.getModules();
-    }
-    this.getUid();
-    this.getStudentInfo();
+    self.getUid().then(function() {
+        self.getStudentInfo().then(function() {
+            self.getYear();
+        })
+    });
 
 }]);

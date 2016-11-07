@@ -1,0 +1,42 @@
+<md-dialog>
+    <form ng-cloak name="subjectForm" style="width: 500px;">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Predmet {{subject.name}}</h2>
+            </div>
+        </md-toolbar>
+        <md-dialog-content style="overflow-x: visible;">
+            <div class="md-dialog-content">
+                <form layout layout-align="center" layout-padding>
+                    <div layout="row" flex>
+                        <md-input-container flex>
+                            <input ng-model="subject.code" placeholder="Šifra predmeta" ng-pattern="/^[0-9a-zA-Z]{3,5}$/" required md-maxlength="5">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex>
+                        <md-input-container flex>
+                            <input ng-model="subject.name" placeholder="Naziv" ng-pattern="/^[^,;]*$/" required md-maxlength="34">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex>
+                        <md-input-container flex>
+                            <input ng-model="subject.espb" placeholder="ESPB" ng-pattern="/^(([0-9]){1}|(1[0-5]{1}))$/" required md-maxlength="2">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex>
+                        <md-checkbox ng-model="subject.required">Predmet je obavezan</md-checkbox>
+                    </div>
+                </form>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button class="md-raised md-primary" ng-click="save()" ng-disabled="subjectForm.$invalid">
+                Sačuvaj
+            </md-button>
+            <span flex></span>
+            <md-button class="md-raised" ng-click="cancel()">
+                Zatvori
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

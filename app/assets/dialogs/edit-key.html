@@ -1,0 +1,29 @@
+<md-dialog>
+    <form ng-cloak name="keyEditForm">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Izmena ključa {{''}}</h2>
+            </div>
+        </md-toolbar>
+        <md-dialog-content style="overflow-x: visible;">
+            <div class="md-dialog-content">
+                <form layout layout-align="center" layout-padding>
+                    <div layout="row" flex>
+                        <md-input-container flex>
+                            <input ng-model="key" placeholder="Ključ" required ng-pattern="/^[a-z-A-Z0-9!$*?\-._]{6}$/" md-maxlength="6" md-minlength="6">
+                        </md-input-container>
+                    </div>
+                </form>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button class="md-raised md-primary" ng-click="save()" ng-disabled="keyEditForm.$invalid">
+                Sačuvaj
+            </md-button>
+            <span flex></span>
+            <md-button class="md-raised" ng-click="cancel()">
+                Zatvori
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

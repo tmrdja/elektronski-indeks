@@ -1,0 +1,45 @@
+<md-dialog>
+    <form ng-cloak name="moduleForm">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{(module.name) ? module.name : 'Modul'}}</h2>
+            </div>
+        </md-toolbar>
+        <md-dialog-content style="overflow-x: visible; width: 350px;">
+            <div class="md-dialog-content">
+                <form layout layout-align="center" layout-padding>
+                    <div layout="row" flex>
+                        <md-input-container flex>
+                            <input ng-model="module.name" required placeholder="Naziv" md-maxlength="25">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex>
+                        <md-input-container flex>
+                            <label>Vrste studija</label>
+                            <md-select ng-model="module.type" required placeholder="Vrste studija">
+                                <md-option ng-value="k" ng-repeat="(k,v) in types">{{ v }}</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex>
+                        <md-input-container flex>
+                            <label>Stepen studija</label>
+                            <md-select ng-model="module.degree" required placeholder="Stepen studija">
+                                <md-option ng-value="k" ng-repeat="(k,v) in degrees">{{ v }}</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                </form>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button class="md-raised md-primary" ng-click="save()" ng-disabled="moduleForm.$invalid">
+                Sačuvaj
+            </md-button>
+            <span flex></span>
+            <md-button class="md-raised" ng-click="cancel()">
+                Zatvori
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

@@ -38,7 +38,36 @@
                             <input ng-model="user.startYear" placeholder="Godina upisa" ng-pattern="/^[0-9]{4}$/" md-maxlength="4">
                         </md-input-container>
                     </div>
-
+                    <div layout="row" flex ng-if="user.role == 2">
+                        <md-input-container flex>
+                            <input ng-model="user.JMBG" placeholder="JMBG" ng-pattern="/^[0-9]{13}$/" md-maxlength="13">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex ng-if="user.role == 2">
+                        <md-input-container flex>
+                            <input ng-model="user.middlename" placeholder="Ime roditelja" md-maxlength="25">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex ng-if="user.role == 2">
+                        <md-input-container flex>
+                            <input ng-model="user.birthCity" placeholder="Mesto rođenja" md-maxlength="17">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex ng-if="user.role == 2">
+                        <md-input-container flex>
+                            <input ng-model="user.birthCounty" placeholder="Opština rođenja" md-maxlength="17">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex ng-if="user.role == 2">
+                        <md-input-container flex>
+                            <input ng-model="user.birthCountry" placeholder="Država rođenja" md-maxlength="17">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex ng-if="user.role == 2">
+                        <md-input-container flex>
+                            <input ng-model="user.citizenship" placeholder="Državljanstvo" md-maxlength="17">
+                        </md-input-container>
+                    </div>
                 </form>
             </div>
         </md-dialog-content>

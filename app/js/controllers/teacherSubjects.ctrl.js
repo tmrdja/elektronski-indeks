@@ -11,49 +11,51 @@ angular.module('app').controller('teacherSubjectsCtrl', ['Service', '$mdDialog',
 
     this.selected = [];
 
-    this.getSubjects = function () {
+    this.getSubjects = function() {
 
     }
 
-    this.listSubjects = function () {
-        Service.getTeacherSubjects(teacher).then(function (res) {
+    this.listSubjects = function() {
+        Service.getTeacherSubjects(teacher).then(function(res) {
             self.subjects = res.data;
         });
     }
 
-    this.cancel = function () {
+    this.cancel = function() {
         $mdDialog.cancel();
     };
 
-    this.addSubject = function () {
+    this.addSubject = function() {
         var previousDialog = $mdDialog;
         var d = $mdDialog.show({
                 controller: 'subjectsCtrl',
                 controllerAs: 'ctrl',
                 locals: {
-                    parentDialog: previousDialog
+                    parentDialog: previousDialog,
+                    disableUsed: true,
+                    multiple: true
                 },
                 templateUrl: '/dialogs/subjects-picker.html',
                 parent: angular.element(document.body),
                 clickOutsideToClose: false
             })
-            .then(function (subject) {
-                Service.addTeacherSubject(teacher, subject).then(function () {
+            .then(function(subjects) {
+                Service.addTeacherSubjects(teacher, subjects).then(function() {
                     listSubjects(teacher);
-                }, function (err) {
-                    Service.showAlert('Greška', 'Greška pri dodavanju predmeta!').finally(function () {
+                }, function(err) {
+                    Service.showAlert('Greška', 'Greška pri dodavanju predmeta!').finally(function() {
                         listSubjects(teacher);
                     })
                 })
-            }, function () {
+            }, function() {
                 //$scope.status = 'You cancelled the dialog.';
             });
     }
 
-    this.deleteSubject = function (subject) {
-        Service.deleteTeacherSubject(teacher, subject).then(function () {
+    this.deleteSubject = function(subject) {
+        Service.deleteTeacherSubject(teacher, subject).then(function() {
             self.listSubjects();
-        }, function (err) {
+        }, function(err) {
             Service.showAlert('Greška', 'Greška pri brisanju predmeta!');
         })
     }

@@ -17,7 +17,7 @@
                 </div>
             </md-toolbar>
             <md-table-container>
-                <table md-table>
+                <table md-table md-progress="ctrl.promise">
                     <thead md-head md-head md-order="ctrl.query.order" md-on-reorder="ctrl.getSubjects">
                         <tr md-row>
                             <th md-column md-order-by="code">Šifra</th>
@@ -28,14 +28,17 @@
                         </tr>
                     </thead>
                     <tbody md-body>
-                        <tr md-row ng-repeat="subject in ctrl.subjects.data track by $index" ng-click="ctrl.editSubject($index, subject)">
+                        <tr md-row ng-repeat="subject in ctrl.subjects.data track by $index" ng-click="ctrl.editSubject(subject)">
                             <td md-cell>{{subject.code}}</td>
                             <td md-cell>{{subject.name}}</td>
                             <td md-cell>{{subject.espb}}</td>
                             <td md-cell>{{(subject.required) ? 'Obavezni' : 'Izborni'}}</td>
                             <td md-cell style="padding: 0px;">
-                                <md-button class="md-icon-button" ng-click="$event.stopPropagation();ctrl.deleteSubject($index, subject);">
+                                <md-button class="md-icon-button" ng-click="$event.stopPropagation();ctrl.deleteSubject(subject);" ng-if="ctrl.role == 0">
                                     <md-icon>delete</md-icon>
+                                </md-button>
+                                <md-button class="md-icon-button" ng-click="$event.stopPropagation();ctrl.setKey(subject);" ng-if="ctrl.role == 1">
+                                    <md-icon>lock</md-icon>
                                 </md-button>
                             </td>
                         </tr>

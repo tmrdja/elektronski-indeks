@@ -2,16 +2,16 @@ angular.module('app').controller('loginCtrl', ['AuthService', '$mdDialog', '$sta
     var self = this;
 
     this.user = {
-        username: 'student',
+        username: 'admin',
         password: 'pass'
     }
 
-    this.login = function (index, subject) {
-        AuthService.login(self.user.username, self.user.password).then(function (res) {
+    this.login = function(index, subject) {
+        AuthService.login(self.user.username, self.user.password).then(function(res) {
             $state.go('year', {
                 year: 1
             });
-        }, function (err) {
+        }, function(err) {
             Service.showAlert('Greška', 'Korisničko ime ili šifra su pogrešni!');
         });
     }
