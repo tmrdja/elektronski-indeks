@@ -20,35 +20,35 @@
                     </div-->
                     <div layout="row" flex>
                         <md-input-container flex>
-                            <input ng-model="subject.credits[0]" placeholder="Predispitna obaveza 1" ng-pattern="/^([0-9]{1,2})|(100)$/" md-maxlength="3">
+                            <input ng-model="subject.credits[0]" placeholder="Predispitna obaveza 1" ng-pattern="/^([0-9]{1,2})|(100)$/" md-maxlength="3" ng-disabled="role != 1">
                         </md-input-container>
                         <md-input-container flex>
-                            <input ng-model="subject.credits[1]" placeholder="Predispitna obaveza 2" ng-pattern="/^([0-9]{1,2})|(100)$/" md-maxlength="3">
-                        </md-input-container>
-                    </div>
-                    <div layout="row" flex>
-                        <md-input-container flex>
-                            <input ng-model="subject.credits[2]" placeholder="Predispitna obaveza 3" ng-pattern="/^([0-9]{1,2})|(100)$/" md-maxlength="3">
-                        </md-input-container>
-                        <md-input-container flex>
-                            <input ng-model="subject.credits[3]" placeholder="Predispitna obaveza 4" ng-pattern="/^([0-9]{1,2})|(100)$/" md-maxlength="3">
+                            <input ng-model="subject.credits[1]" placeholder="Predispitna obaveza 2" ng-pattern="/^([0-9]{1,2})|(100)$/" md-maxlength="3" ng-disabled="role != 1">
                         </md-input-container>
                     </div>
                     <div layout="row" flex>
                         <md-input-container flex>
-                            <input ng-model="subject.credits[4]" placeholder="Ispit" ng-pattern="/^([0-9]{1,2})|(100)$/" md-maxlength="3">
+                            <input ng-model="subject.credits[2]" placeholder="Predispitna obaveza 3" ng-pattern="/^([0-9]{1,2})|(100)$/" md-maxlength="3" ng-disabled="role != 1">
+                        </md-input-container>
+                        <md-input-container flex>
+                            <input ng-model="subject.credits[3]" placeholder="Predispitna obaveza 4" ng-pattern="/^([0-9]{1,2})|(100)$/" md-maxlength="3" ng-disabled="role != 1">
+                        </md-input-container>
+                    </div>
+                    <div layout="row" flex>
+                        <md-input-container flex>
+                            <input ng-model="subject.credits[4]" placeholder="Ispit" ng-pattern="/^([0-9]{1,2})|(100)$/" md-maxlength="3" ng-disabled="role != 1">
                         </md-input-container>
                     </div>
                     <div layout="row" flex>
 
                         <md-input-container flex>
-                            <input ng-model="subject.mark" placeholder="Ocena" ng-pattern="/^([5-9]{1})|(10)$/" md-maxlength="2">
+                            <input ng-model="subject.mark" placeholder="Ocena" ng-pattern="/^([5-9]{1})|(10)$/" md-maxlength="2" ng-disabled="role != 1">
                         </md-input-container>
                     </div>
                     <div layout="row" flex>
                         <md-input-container>
                             <label>Datum polaganja</label>
-                            <md-datepicker ng-model="subject.date" name="Datum polaganja" md-min-date="minDate" md-max-date="maxDate"></md-datepicker>
+                            <md-datepicker ng-model="subject.date" name="Datum polaganja" md-min-date="minDate" md-max-date="maxDate" ng-disabled="role != 1"></md-datepicker>
                             <div ng-messages="subjectForm.date.$error">
                                 <div ng-message="valid">The entered value is not a date!</div>
                                 <div ng-message="required">This date is required!</div>
@@ -56,7 +56,7 @@
                                 <div ng-message="maxdate">Date is too late!</div>
                             </div>
                         </md-input-container>
-                        <md-switch ng-model="subject.signed" aria-label="Potpis">
+                        <md-switch ng-model="subject.signed" aria-label="Potpis" ng-disabled="role != 1">
                             Student je odslušao predavanja
                         </md-switch>
                     </div>
@@ -64,7 +64,7 @@
             </div>
         </md-dialog-content>
         <md-dialog-actions layout="row">
-            <md-button class="md-raised md-primary" ng-click="save()" ng-disabled="subjectForm.$invalid">
+            <md-button class="md-raised md-primary" ng-click="save()" ng-disabled="subjectForm.$invalid" ng-if="role == 1">
                 Sačuvaj
             </md-button>
             <span flex></span>

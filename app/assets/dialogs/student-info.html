@@ -2,12 +2,113 @@
     <form ng-cloak name="studentForm" style="width: 500px;">
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2>Student</h2>
+                <h2>Student - {{student.firstname+' '+student.lastname}}</h2>
             </div>
         </md-toolbar>
         <md-dialog-content style="overflow-x: visible;">
-            <div class="md-dialog-content">
-                <form layout layout-align="center" layout-padding>
+            <div class="md-dialog-content" style="padding: 0px;">
+                <md-list>
+                    <md-list-item class="md-2-line">
+                        <md-icon>face</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>{{student.firstname+' '+student.lastname}}</h3>
+                            <p>Ime i prezime</p>
+                        </div>
+                        <md-divider md-inset hide-sm></md-divider>
+                        <md-divider hide-gt-sm></md-divider>
+                    </md-list-item>
+                    <md-list-item class="md-2-line">
+                        <md-icon>supervisor_account</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>{{student.middlename}}</h3>
+                            <p>Ime roditelja</p>
+                        </div>
+                        <md-divider md-inset hide-sm></md-divider>
+                        <md-divider hide-gt-sm></md-divider>
+                    </md-list-item>
+                    <md-list-item class="md-2-line">
+                        <md-icon>fingerprint</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>{{student.JMBG}}</h3>
+                            <p>JMBG</p>
+                        </div>
+                        <md-divider md-inset hide-sm></md-divider>
+                        <md-divider hide-gt-sm></md-divider>
+                    </md-list-item>
+                    <md-list-item class="md-2-line">
+                        <md-icon>home</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>{{student.birthCity}}</h3>
+                            <p>Grad rođenja</p>
+                        </div>
+                        <md-divider md-inset hide-sm></md-divider>
+                        <md-divider hide-gt-sm></md-divider>
+                    </md-list-item>
+                    <md-list-item class="md-2-line">
+                        <md-icon>person_pin_circle</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>{{student.birthCountry}}</h3>
+                            <p>Država rođenja</p>
+                        </div>
+                        <md-divider md-inset hide-sm></md-divider>
+                        <md-divider hide-gt-sm></md-divider>
+                    </md-list-item>
+                    <md-list-item class="md-2-line">
+                        <md-icon>public</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>{{student.citizenship}}</h3>
+                            <p>Državljanstvo</p>
+                        </div>
+                        <md-divider md-inset hide-sm></md-divider>
+                        <md-divider hide-gt-sm></md-divider>
+                    </md-list-item>
+                    <md-list-item class="md-2-line">
+                        <md-icon>assignment_ind</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>{{student.number+'/'+student.startYear}}</h3>
+                            <p>Broj indeksa</p>
+                        </div>
+                        <md-divider md-inset hide-sm></md-divider>
+                        <md-divider hide-gt-sm></md-divider>
+                    </md-list-item>
+                    <md-list-item class="md-2-line">
+                        <md-icon>business</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>{{student.faculty+' - '+student.city}}</h3>
+                            <p>Fakultet</p>
+                        </div>
+                        <md-divider md-inset hide-sm></md-divider>
+                        <md-divider hide-gt-sm></md-divider>
+                    </md-list-item>
+                    <md-list-item class="md-2-line">
+                        <md-icon>school</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>{{student.course}}</h3>
+                            <p>Smer</p>
+                        </div>
+                        <md-divider md-inset hide-sm></md-divider>
+                        <md-divider hide-gt-sm></md-divider>
+                    </md-list-item>
+                    <md-list-item class="md-2-line">
+                        <md-icon>stars</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>{{MODULE_TYPE[student.type]}}</h3>
+                            <p>Vrsta studija</p>
+                        </div>
+                        <md-divider md-inset hide-sm></md-divider>
+                        <md-divider hide-gt-sm></md-divider>
+                    </md-list-item>
+                    <md-list-item class="md-2-line">
+                        <md-icon>grade</md-icon>
+                        <div class="md-list-item-text">
+                            <h3>{{MODULE_DEGREE[student.degree]}}</h3>
+                            <p>Stepen studija</p>
+                        </div>
+                        <md-divider md-inset hide-sm></md-divider>
+                        <md-divider hide-gt-sm></md-divider>
+                    </md-list-item>
+                </md-list>
+                <!--form layout layout-align="center" layout-padding>
                     <div layout="row" flex>
                         <md-input-container flex>
                             <input ng-model="student.number" placeholder="Broj indeksa" ng-pattern="/^[0-9]{1,5}$/" md-maxlength="5">
@@ -50,13 +151,13 @@
                     </div>
 
 
-                </form>
+                </form-->
             </div>
         </md-dialog-content>
         <md-dialog-actions layout="row">
-            <md-button class="md-raised md-primary" ng-click="save()" ng-disabled="studentForm.$invalid">
+            <!--md-button class="md-raised md-primary" ng-click="save()" ng-disabled="studentForm.$invalid">
                 Sačuvaj
-            </md-button>
+            </md-button-->
             <span flex></span>
             <md-button class="md-raised" ng-click="cancel()">
                 Zatvori

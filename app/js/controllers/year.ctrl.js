@@ -153,4 +153,21 @@ angular.module('app').controller('yearCtrl', ['Service', '$mdDialog', '$statePar
         })
     });
 
+    self.showStudentInfo = function() {
+        $mdDialog.show({
+            controller: function($scope) {
+                $scope.cancel = function() {
+                    $mdDialog.cancel();
+                };
+                $scope.MODULE_TYPE = Service.MODULE_TYPE;
+                $scope.MODULE_DEGREE = Service.MODULE_DEGREE;
+                $scope.student = self.info;
+
+            },
+            templateUrl: '/dialogs/student-info.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: false
+        })
+    }
+
 }]);

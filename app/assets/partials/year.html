@@ -22,52 +22,12 @@
                     <span class="md-caption">{{ctrl.MODULE_TYPE[ctrl.info.type]}} - {{ctrl.info.course}}</span>
                 </div>
                 <span flex></span>
-                <!--md-button class="md-icon-button" ng-click="ctrl.editSudentInfo()" ng-if="ctrl.role == 0">
-                    <md-tooltip md-direction="bottom">Izmeni podatke</md-tooltip>
-                    <md-icon md-menu-origin>edit</md-icon>
-                </md-button-->
-                <!--md-menu md-position-mode="target-right target" md-offset="0 32">
-                    <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="ctrl.openMenu($mdOpenMenu, $event)">
-                        <md-icon md-menu-origin>arrow_drop_down</md-icon>
-                    </md-button>
-                    <md-menu-content width="3">
-                        <md-menu-item>
-                            <md-button disabled="disabled" ng-click="ctrl.checkVoicemail()">
-                                <!--md-icon md-svg-icon="call:voicemail"></md-icon>
-                                Check voicemail
-                            </md-button>
-                        </md-menu-item>
-                        <md-menu-divider></md-menu-divider>
-                        <md-menu-item>
-                            <md-button ng-click="ctrl.toggleNotifications()">
-                                <!--md-icon></md-icon>
-                                {{ctrl.notificationsEnabled ? 'Disable' : 'Enable' }} notifications
-                            </md-button>
-                        </md-menu-item>
-                    </md-menu-content>
-                </md-menu-->
+                <md-button class="md-icon-button" ng-click="ctrl.showStudentInfo()">
+                    <md-tooltip md-direction="bottom">Opširno</md-tooltip>
+                    <md-icon md-menu-origin>account_circle</md-icon>
+                </md-button>
             </div>
         </md-toolbar>
-        <!--md-menu-content ng-show="userSection">
-            <md-menu-item>
-                <md-button>
-                    Odjavi se
-                </md-button>
-            </md-menu-item>
-        </md-menu-content-->
-        <md-menu-content>
-            <md-menu-item ng-repeat="item in ctrl.years">
-                <md-button ui-sref="year({year: $index+1})" ng-class="((ctrl.year == $index+1) ? 'md-primary md-raised': '')">
-                    <md-icon>{{item}}</md-icon> Godina
-                </md-button>
-            </md-menu-item>
-            <!--md-menu-divider></md-menu-divider>
-            <md-menu-item ng-if="ctrl.role == 0">
-                <md-button ui-sref="year({year: 0})" ng-class="((ctrl.year == 0) ? 'md-primary md-raised': '')">
-                    <md-icon>import_export</md-icon> Uvoz / Izvoz
-                </md-button>
-            </md-menu-item-->
-        </md-menu-content>
     </md-sidenav>
     <md-content flex layout-padding>
         <md-card>
@@ -76,7 +36,7 @@
                     <h2>{{ctrl.years[ctrl.year-1]}} Godina</h2>
                     <div flex></div>
                     <md-input-container md-no-float class="md-block input-show-hide" style="margin-top: 35px;">
-                        <input ng-model="filterQuery" type="text" placeholder="Traži">
+                        <input ng-model="ctrl.filterQuery" type="text" placeholder="Traži">
                     </md-input-container>
                     <md-button class="md-icon-button">
                         <md-icon style="display:inline-block;">search</md-icon>
@@ -134,7 +94,7 @@
                         </tr>
                     </thead>
                     <tbody md-body>
-                        <tr md-row ng-repeat="subject in ctrl.subjects | filter:filterQuery track by $index" ng-click="ctrl.editSubject($index, subject)">
+                        <tr md-row ng-repeat="subject in ctrl.subjects | filter:ctrl.filterQuery track by $index" ng-click="ctrl.editSubject($index, subject)">
                             <td md-cell>{{subject.code}}</td>
                             <td md-cell>{{subject.name}}</td>
                             <td md-cell>{{subject.espb}}</td>

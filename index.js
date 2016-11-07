@@ -109,25 +109,6 @@ exports.startServer = function(port, path, callback) {
     function getYear(year, user) {
         return mfrc522.readYear(year).then(function(r) {
                 return r.data;
-                /*var codes = r.data.map(function (s) {
-                    return s.code.match(/[0-9a-zA-Z]{3,5}/)[0];
-                });*/
-                //console.log('getYear', user, codes);
-                /*return db.getSubjectsByCodes(codes, user)
-                    .then(function (subjects) {
-                            //console.log(subjects, r.data);
-                            r.data.forEach(function (s) {
-                                if (subjects[s.code] != null) {
-                                    s.name = subjects[s.code].name;
-                                    s.editable = subjects[s.code].editable;
-                                }
-                            });
-                            //console.log(r.data)
-                            return r.data;
-                        },
-                        function (err) {
-                            throw err;
-                        })*/
             },
             function(err) {
                 throw err;
@@ -274,7 +255,7 @@ exports.startServer = function(port, path, callback) {
                 role: 2
             })
             .then(function(subjects) {
-                    console.log(subjects);
+                    //console.log(subjects);
                     sub.forEach(function(s) {
                         if (subjects[s.code] != null) {
                             s.name = subjects[s.code].name;
@@ -308,7 +289,7 @@ exports.startServer = function(port, path, callback) {
     });
 
     app.post('/deleteModule', function(req, res) {
-        console.log('delete module', req.body.module)
+        //console.log('delete module', req.body.module)
         db.deleteModule(req.body.module).then(function(r) {
             res.send(r);
         }, function(err) {
@@ -318,10 +299,10 @@ exports.startServer = function(port, path, callback) {
     });
 
     function getYears(years, index) {
-        console.log('getYears', years.length, index);
+        //console.log('getYears', years.length, index);
         return mfrc522.readYear(index).then(function(data) {
             years[index - 1] = data.data;
-            console.log('getYears success', years.length);
+            //console.log('getYears success', years.length);
             index++;
             if (index < 5) {
                 return getYears(years, index);
@@ -336,9 +317,9 @@ exports.startServer = function(port, path, callback) {
     }
 
     app.post('/editModule', function(req, res) {
-        console.log('addModule', req.body.module)
+        //console.log('addModule', req.body.module)
         db.editModule(req.body.module).then(function(r) {
-            console.log('added', req.body.module);
+            //console.log('added', req.body.module);
             res.send(r);
         }, function(err) {
             res.status(500);
@@ -349,7 +330,7 @@ exports.startServer = function(port, path, callback) {
 
     app.post('/addModuleSubjects', function(req, res) {
         db.addModuleSubjects(req.body.module, req.body.subjects, req.body.year).then(function(r) {
-            console.log('added');
+            //console.log('added');
             res.send(r);
         }, function(err) {
             res.status(500);
@@ -359,7 +340,7 @@ exports.startServer = function(port, path, callback) {
 
     app.post('/deleteModuleSubject', function(req, res) {
         db.deleteModuleSubject(req.body.module._id, req.body.subject._id, req.body.year).then(function(r) {
-            console.log('added');
+            //console.log('added');
             res.send(r);
         }, function(err) {
             res.status(500);
@@ -369,7 +350,7 @@ exports.startServer = function(port, path, callback) {
 
     app.post('/saveSubject', function(req, res) {
         db.saveSubject(req.body.subject).then(function(r) {
-            console.log('saved');
+            //console.log('saved');
             res.send(r);
         }, function(err) {
             res.status(500);
@@ -379,7 +360,7 @@ exports.startServer = function(port, path, callback) {
 
     app.post('/deleteSubject', function(req, res) {
         db.deleteSubject(req.body.subject).then(function(r) {
-            console.log('deleted');
+            //console.log('deleted');
             res.send(r);
         }, function(err) {
             res.status(500);
@@ -388,7 +369,7 @@ exports.startServer = function(port, path, callback) {
     });
 
     function initSubject(subjects, index) {
-        console.log('initSubject', index, subjects[index]);
+        //console.log('initSubject', index, subjects[index]);
         return mfrc522.initSubject(index, subjects[index]).then(function(r) {
             index++;
             if (index < subjects.length) {
@@ -438,7 +419,7 @@ exports.startServer = function(port, path, callback) {
                     //console.log(subjects);
                     return initSubject(subjects, 0);
                 }).then(function() {
-                        console.log('info writed');
+                        //console.log('info writed');
                         res.send(r2);
                     },
                     function(err) {
