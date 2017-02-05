@@ -8,8 +8,9 @@ angular.module('app', ['ngSanitize', 'ngResource', 'ui.router', 'ngMaterial', 'm
         url: window.location.origin
     })
     .value('multiple', false)
-    .config(function appConfig($stateProvider, $locationProvider, $urlRouterProvider, $httpProvider) {
-        //$locationProvider.hashPrefix('#');
+    .config(function appConfig($stateProvider, $locationProvider, $urlRouterProvider, $httpProvider, $qProvider) {
+        $locationProvider.hashPrefix('');
+        $qProvider.errorOnUnhandledRejections(false)
         $httpProvider.interceptors.push('AuthInterceptor');
 
         $stateProvider
